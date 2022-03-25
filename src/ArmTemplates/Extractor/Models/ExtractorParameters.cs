@@ -89,21 +89,21 @@ namespace Microsoft.Azure.Management.ApiManagement.ArmTemplates.Extractor.Models
             this.PolicyXMLBaseUrl = extractorConfig.PolicyXMLBaseUrl;
             this.PolicyXMLSasToken = extractorConfig.PolicyXMLSasToken;
             this.ApiVersionSetName = extractorConfig.ApiVersionSetName;
-            this.IncludeAllRevisions = extractorConfig.IncludeAllRevisions != null && extractorConfig.IncludeAllRevisions.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.IncludeAllRevisions = "true".Equals(extractorConfig.IncludeAllRevisions, StringComparison.OrdinalIgnoreCase);
             this.ServiceUrlParameters = extractorConfig.ServiceUrlParameters;
-            this.ParameterizeServiceUrl = extractorConfig.ParamServiceUrl != null && extractorConfig.ParamServiceUrl.Equals("true", StringComparison.OrdinalIgnoreCase) || extractorConfig.ServiceUrlParameters != null;
-            this.ParameterizeNamedValue = extractorConfig.ParamNamedValue != null && extractorConfig.ParamNamedValue.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeApiLoggerId = extractorConfig.ParamApiLoggerId != null && extractorConfig.ParamApiLoggerId.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeLogResourceId = extractorConfig.ParamLogResourceId != null && extractorConfig.ParamLogResourceId.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.NotIncludeNamedValue = extractorConfig.NotIncludeNamedValue != null && extractorConfig.NotIncludeNamedValue.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.ParameterizeServiceUrl = "true".Equals(extractorConfig.ParamServiceUrl, StringComparison.OrdinalIgnoreCase) || extractorConfig.ServiceUrlParameters != null;
+            this.ParameterizeNamedValue = "true".Equals(extractorConfig.ParamNamedValue, StringComparison.OrdinalIgnoreCase);
+            this.ParameterizeApiLoggerId = "true".Equals(extractorConfig.ParamApiLoggerId, StringComparison.OrdinalIgnoreCase);
+            this.ParameterizeLogResourceId = "true".Equals(extractorConfig.ParamLogResourceId, StringComparison.OrdinalIgnoreCase);
+            this.NotIncludeNamedValue = "true".Equals(extractorConfig.NotIncludeNamedValue, StringComparison.OrdinalIgnoreCase);
             this.OperationBatchSize = extractorConfig.OperationBatchSize ?? default;
-            this.ParamNamedValuesKeyVaultSecrets = extractorConfig.ParamNamedValuesKeyVaultSecrets != null && extractorConfig.ParamNamedValuesKeyVaultSecrets.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeBackend = extractorConfig.ParamBackend != null && extractorConfig.ParamBackend.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.SplitApis = !string.IsNullOrEmpty(extractorConfig.SplitAPIs) && extractorConfig.SplitAPIs.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.IncludeAllRevisions = !string.IsNullOrEmpty(extractorConfig.IncludeAllRevisions) && extractorConfig.IncludeAllRevisions.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.ParamNamedValuesKeyVaultSecrets = "true".Equals(extractorConfig.ParamNamedValuesKeyVaultSecrets, StringComparison.OrdinalIgnoreCase);
+            this.ParameterizeBackend = "true".Equals(extractorConfig.ParamBackend, StringComparison.OrdinalIgnoreCase);
+            this.SplitApis = "true".Equals(extractorConfig.SplitAPIs, StringComparison.OrdinalIgnoreCase);
+            this.IncludeAllRevisions = "true".Equals(extractorConfig.IncludeAllRevisions, StringComparison.OrdinalIgnoreCase);
             this.FileNames = this.GenerateFileNames(extractorConfig.BaseFileName, extractorConfig.SourceApimName);
             this.MultipleApiNames = this.ParseMultipleApiNames(extractorConfig.MultipleAPIs);
-            this.ExtractGateways = extractorConfig.ExtractGateways != null && extractorConfig.ExtractGateways.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.ExtractGateways = "true".Equals(extractorConfig.ExtractGateways, StringComparison.OrdinalIgnoreCase);
         }
 
         internal ExtractorParameters OverrideConfiguration(ExtractorConsoleAppConfiguration overridingConfig)
