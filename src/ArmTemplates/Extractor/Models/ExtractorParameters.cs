@@ -121,24 +121,24 @@ namespace Microsoft.Azure.Management.ApiManagement.ArmTemplates.Extractor.Models
             this.PolicyXMLBaseUrl = overridingConfig.PolicyXMLBaseUrl ?? this.PolicyXMLBaseUrl;
             this.PolicyXMLSasToken = overridingConfig.PolicyXMLSasToken ?? this.PolicyXMLSasToken;
             this.ApiVersionSetName = overridingConfig.ApiVersionSetName ?? this.ApiVersionSetName;
-            this.IncludeAllRevisions = overridingConfig.IncludeAllRevisions != null && overridingConfig.IncludeAllRevisions.Equals("true", StringComparison.OrdinalIgnoreCase);
-            
+            this.IncludeAllRevisions = this.OverrideBoolParam(this.IncludeAllRevisions, overridingConfig.IncludeAllRevisions);
+
             // there can be no service url parameters in overriding configuration
             // this.ServiceUrlParameters = overridingConfig.ServiceUrlParameters ?? this.ServiceUrlParameters;
 
-            this.ParameterizeServiceUrl = overridingConfig.ParamServiceUrl != null && overridingConfig.ParamServiceUrl.Equals("true", StringComparison.OrdinalIgnoreCase) || overridingConfig.ServiceUrlParameters != null;
-            this.ParameterizeNamedValue = overridingConfig.ParamNamedValue != null && overridingConfig.ParamNamedValue.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeApiLoggerId = overridingConfig.ParamApiLoggerId != null && overridingConfig.ParamApiLoggerId.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeLogResourceId = overridingConfig.ParamLogResourceId != null && overridingConfig.ParamLogResourceId.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.NotIncludeNamedValue = overridingConfig.NotIncludeNamedValue != null && overridingConfig.NotIncludeNamedValue.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.ParameterizeServiceUrl = this.OverrideBoolParam(this.ParameterizeServiceUrl, overridingConfig.ParamServiceUrl);
+            this.ParameterizeNamedValue = this.OverrideBoolParam(this.ParameterizeNamedValue, overridingConfig.ParamNamedValue);
+            this.ParameterizeApiLoggerId = this.OverrideBoolParam(this.ParameterizeApiLoggerId, overridingConfig.ParamApiLoggerId);
+            this.ParameterizeLogResourceId = this.OverrideBoolParam(this.ParameterizeLogResourceId, overridingConfig.ParamLogResourceId);
+            this.NotIncludeNamedValue = this.OverrideBoolParam(this.NotIncludeNamedValue, overridingConfig.NotIncludeNamedValue);
             this.OperationBatchSize = overridingConfig.OperationBatchSize ?? this.OperationBatchSize;
-            this.ParamNamedValuesKeyVaultSecrets = overridingConfig.ParamNamedValuesKeyVaultSecrets != null && overridingConfig.ParamNamedValuesKeyVaultSecrets.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ParameterizeBackend = overridingConfig.ParamBackend != null && overridingConfig.ParamBackend.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.SplitApis = !string.IsNullOrEmpty(overridingConfig.SplitAPIs) && overridingConfig.SplitAPIs.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.IncludeAllRevisions = !string.IsNullOrEmpty(overridingConfig.IncludeAllRevisions) && overridingConfig.IncludeAllRevisions.Equals("true", StringComparison.OrdinalIgnoreCase);
-            this.ExtractGateways = string.IsNullOrEmpty(overridingConfig.ExtractGateways) ? this.ExtractGateways : overridingConfig.ExtractGateways.Equals("true", StringComparison.OrdinalIgnoreCase);
+            this.ParamNamedValuesKeyVaultSecrets = this.OverrideBoolParam(this.ParamNamedValuesKeyVaultSecrets, overridingConfig.ParamNamedValuesKeyVaultSecrets);
+            this.ParameterizeBackend = this.OverrideBoolParam(this.ParameterizeBackend, overridingConfig.ParamBackend);
+            this.SplitApis = this.OverrideBoolParam(this.SplitApis, overridingConfig.SplitAPIs);
+            this.IncludeAllRevisions = this.OverrideBoolParam(this.IncludeAllRevisions, overridingConfig.IncludeAllRevisions);
+            this.ExtractGateways = this.OverrideBoolParam(this.ExtractGateways, overridingConfig.ExtractGateways);
 
-            if (!string.IsNullOrEmpty(overridingConfig.BaseFileName) && !string.IsNullOrEmpty(overridingConfig.BaseFileName))
+            if (!string.IsNullOrEmpty(overridingConfig.BaseFileName) && !string.IsNullOrEmpty(overridingConfig.SourceApimName))
             {
                 this.FileNames = this.GenerateFileNames(overridingConfig.BaseFileName, overridingConfig.SourceApimName);
             }
@@ -149,6 +149,18 @@ namespace Microsoft.Azure.Management.ApiManagement.ArmTemplates.Extractor.Models
             }
 
             return this;
+        }
+
+        bool OverrideBoolParam(bool paramValue, string overrideValue)
+        {
+            if(string.IsNullOrEmpty(overrideValue))
+            {
+                return paramValue;
+            }
+            else
+            {
+                return overrideValue.Equals("true", StringComparison.OrdinalIgnoreCase);
+            }
         }
 
         List<string> ParseMultipleApiNames(string multipleApisArgument)
